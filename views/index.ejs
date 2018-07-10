@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Animal Info</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" media="screen" href="main.css" />
+    <script src="main.js"></script>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4"
+        crossorigin="anonymous">
+</head>
+<body>
+    <h1>All Animals below:</h1>
+
+    <table class="table table-dark">
+            <thead>
+              <tr>
+                <th scope="col">Animal</th>
+                <th scope="col">Name</th>
+                <th scope="col">Age</th>
+                <th scope="col">Edit Animal</th>
+                <th scope="col">Delete Animal</th>
+              </tr>
+            </thead>
+            <tbody>
+            <% JSON.stringify(allAnimals) %>
+            <% for (var i in allAnimals) { %>
+              <tr>
+                <td><a href="/info/<%= allAnimals[i]._id %>"> <%= allAnimals[i].type %> </a></td>
+                <td><%= allAnimals[i].name %></td>
+                <td><%= allAnimals[i].age %></td>
+                <td><a href="/edit/<%= allAnimals[i]._id %>">Edit</a></td>
+                <td><a href="/delete/<%= allAnimals[i]._id %>">Delete</a></td>
+              </tr>
+              <% } %>
+            </tbody>
+          </table>
+
+          <a href="/new">Create a new Animal</a>
+</body>
+</html>

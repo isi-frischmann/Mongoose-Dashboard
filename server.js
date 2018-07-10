@@ -37,8 +37,8 @@ mongoose.connect('mongodb://localhost/mongooseDashboard');
 
 // create new Schema
 var mongooseDashboard = new mongoose.Schema({
-    type: { type: String, required: true, minlength: 1 },
-    name: { type: String, required: true, minlength: 1 },
+    type: { type: String, required: [true, 'Type of the Animal is required'],  minlength: [3, "Animal needs to have a type"] },
+    name: { type: String, required: [true, 'Name is required'], minlength: [2, "You're Animal don't have any name? :("] },
     age: Number
 }, {timestamps: true} );
 // create collection
@@ -109,20 +109,24 @@ app.get('/edit/:id', function(req, res){
     })
 })
 
+
 // update animal
 app.post('/updateAnimal/:id', function(req, res){
-    Animal.update({'_id' : req.params.id}, {$set: {type: req.body.type, name: req.body.name, age: req.body.age}}, function(err){
-        console.log("I'm inside");
-        console.log(req.params.id);
+    Animal.update({'_id' : req.params.id}, {$set: {type: req.body.type, name: req.body.name, age: req.body.age}}, {runValidators: true}, function(err, editAnimal){
+        // console.log("I'm inside");
+        // console.log(req.params.id);
+        // console.log("@@@@@@@ err", err)
         if(err){
+            // console.log("@@@@@@@ if")
+            // console.log('You have an error', err);
             for(var key in err.errors){
                 req.flash('editAnimal', err.errors[key].message);
             }
-            res.redirect('/');
+            return res.redirect('/edit/' + req.params.id);
         }
         else{
-            // console.log("UPDATE ME");
-            res.redirect('/');
+            // console.log("@@@@@@@ else")
+            return res.redirect('/');
         }
     })
 })
